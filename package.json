@@ -1,0 +1,28 @@
+{
+  "name": "hbmd",
+  "version": "1.0.0",
+  "description": "HeartBeat Module",
+  "main": "./app/main",
+  "dependencies": {
+    "os-utils": "0.0.14",
+    "pkg": "^4.4.0",
+    "systeminformation": "^4.14.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TTOExtreme/HBMD.git"
+  },
+  "keywords": [
+    "HeartBeat"
+  ],
+  "author": "TTOExtreme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TTOExtreme/HBMD/issues"
+  },
+  "homepage": "https://github.com/TTOExtreme/HBMD#readme"
+}
