@@ -1,30 +1,31 @@
 const os = require('os-utils');
 
 
-var last_save = 0;
-var data = [];
-var Program;
+let last_save = 0;
+let data = [];
+let Program;
 
 
 function init(_Program) {
     Program = _Program;
-    setInterval(request, 1000);
+    setInterval(request, Program.config.intervalCollect);
+    setInterval(send, Program.config.interval)
+}
+
+function send(e) {
+    Program.connector.send({ route: "CPU", data: data })
+    data = [];
 }
 
 function request(e) {
-    var d = {};
+    let d = {};
     os.cpuUsage((percent) => {
-        d.percent = percent;
+        d.percent = percent.toFixed(2);
         d.count = os.cpuCount();
         d.timestamp = new Date().getTime();
         os.cpuFree((free) => {
-            d.free = free;
+            d.free = free.toFixed(2);
             data.push(d);
-            if (last_save + (10 * 1000) < d.timestamp) {
-                Program.dataTransfer.cpu.append(data);
-                data = [];
-                last_save = new Date().getTime();
-            }
         });
     });
 }

@@ -4,8 +4,12 @@
   "description": "HeartBeat Module",
   "main": "./app/main",
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "os-utils": "0.0.14",
     "pkg": "^4.4.0",
+    "randomstring": "^1.1.5",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
     "systeminformation": "^4.14.8"
   },
   "devDependencies": {},

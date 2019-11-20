@@ -1,9 +1,19 @@
 
-var Program = {};
+let bcypher = require('./utils/bcypher');
 
-Program.dataTransfer = require("./dataTransfer");
-Program.dataRecover = require("./dataRecover")
+let Program = {
+    config: {
+        /**
+         * intervalo para coleta de dados em milisegundos
+         */
+        intervalCollect: 2 * 1000,
+        /**
+         * tempo para post de dados para o servidor em milisegundos
+         */
+        interval: 10 * 1000,
+        url: "http://localhost:9899/HBMD"
+    }
+};
 
-
-Program.dataTransfer.init(Program);
-Program.dataRecover.init(Program);
+require("./dataTransfer").init(Program);
+require("./dataRecover").init(Program);

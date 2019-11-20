@@ -1,9 +1,9 @@
 const sysinfo = require("systeminformation");
 
-var online = true;
-var last_save = 0;
-var data = [];
-var Program;
+let online = true;
+let last_save = 0;
+let data = [];
+let Program;
 
 
 function init(_Program) {

@@ -1,10 +1,7 @@
-var cpu = require("./cpu")
-var mem = require("./mem")
-var disk = require("./disk")
-var network = require("./network")
 
 function init(Program) {
-
+    Program.connector = require("./connector");
+    Program.connector.init(Program);
 }
 
-module.exports = { cpu, mem, disk, network, init }
+module.exports = { init }
