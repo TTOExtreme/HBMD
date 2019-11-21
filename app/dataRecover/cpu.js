@@ -4,6 +4,9 @@ const os = require('os-utils');
 let last_save = 0;
 let data = [];
 let Program;
+let min = { percent: 100 }
+let max = { percent: 0 }
+let med = { percent: 0 }
 
 
 function init(_Program) {
@@ -13,18 +16,32 @@ function init(_Program) {
 }
 
 function send(e) {
-    Program.connector.send({ route: "CPU", data: data })
+    let index = 0;
+    data.forEach(item => {
+        med.percent += parseFloat(item.percent);
+        index++;
+    })
+    med.percent = (med.percent / index).toFixed(2).toString();
+
+    Program.connector.send({ route: "CPU", data: data, min: min, max: max, med: med, timestamp: new Date().getTime() })
     data = [];
+
+    min = { percent: 100 }
+    max = { percent: 0 }
+    med = { percent: 0 }
 }
 
 function request(e) {
     let d = {};
     os.cpuUsage((percent) => {
-        d.percent = percent.toFixed(2);
+        d.percent = (percent * 100).toFixed(2);
+        if (d.percent > max.percent) { max.percent = d.percent };
+        if (d.percent < min.percent) { min.percent = d.percent };
+
+
         d.count = os.cpuCount();
-        d.timestamp = new Date().getTime();
         os.cpuFree((free) => {
-            d.free = free.toFixed(2);
+            d.free = (free * 100).toFixed(2);
             data.push(d);
         });
     });

@@ -5,6 +5,9 @@ let online = true;
 let last_save = 0;
 let data = [];
 let Program;
+let min = { rx: 1000000000, tx: 1000000000 }
+let max = { rx: 0, tx: 0 }
+let med = { rx: 0, tx: 0 }
 
 
 function init(_Program) {
@@ -16,8 +19,21 @@ function init(_Program) {
 }
 
 function send(e) {
-    Program.connector.send({ route: "NIC", data: data })
+    let index = 0;
+    data.forEach(item => {
+        med.rx += parseFloat(item.rx);
+        med.tx += parseFloat(item.tx);
+        index++;
+    })
+    med.rx = (med.rx / index).toFixed(2).toString();
+    med.tx = (med.tx / index).toFixed(2).toString();
+
+    Program.connector.send({ route: "NIC", data: data, min: min, max: max, med: med, timestamp: new Date().getTime() })
+
     data = [];
+    min = { rx: 1000000000, tx: 1000000000 }
+    max = { rx: 0, tx: 0 }
+    med = { rx: 0, tx: 0 }
 }
 
 function request(e) {
@@ -25,7 +41,13 @@ function request(e) {
     Object.keys(ifaces).forEach((iface) => {
         sysinfo.networkStats(iface.iface, (ifState) => {
             ifState.forEach((ifData) => {
-                data.push({ interface: ifData.iface, rx: ifData.rx_sec, tx: ifData.tx_sec })
+                if (ifData.rx_sec != 'Infinity' && ifData.rx_sec != '-1' && ifData.rx_sec.toFixed(2) != 'NaN' && ifData.tx_sec != 'Infinity' && ifData.tx_sec != '-1' && ifData.tx_sec.toFixed(2) != 'NaN') {
+                    data.push({ interface: ifData.iface, rx: (ifData.rx_sec).toFixed(2), tx: (ifData.tx_sec).toFixed(2) })
+                    if (ifData.rx_sec > max.rx) { max.rx = (ifData.rx_sec).toFixed(2) }
+                    if (ifData.tx_sec > max.tx) { max.tx = (ifData.tx_sec).toFixed(2) }
+                    if (ifData.rx_sec < min.rx) { min.rx = (ifData.rx_sec).toFixed(2) }
+                    if (ifData.tx_sec < min.tx) { min.tx = (ifData.tx_sec).toFixed(2) }
+                }
             })
         })
     })
