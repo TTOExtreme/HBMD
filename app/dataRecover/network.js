@@ -8,6 +8,7 @@ let Program;
 let min = { rx: 1000000000, tx: 1000000000 }
 let max = { rx: 0, tx: 0 }
 let med = { rx: 0, tx: 0 }
+let info = {}
 
 
 function init(_Program) {
@@ -28,7 +29,7 @@ function send(e) {
     med.rx = (med.rx / index).toFixed(2).toString();
     med.tx = (med.tx / index).toFixed(2).toString();
 
-    Program.connector.send({ route: "NIC", data: data, min: min, max: max, med: med, timestamp: new Date().getTime() })
+    Program.connector.send({ route: "NIC", data: data, info: info, min: min, max: max, med: med, timestamp: new Date().getTime() })
 
     data = [];
     min = { rx: 1000000000, tx: 1000000000 }
@@ -42,6 +43,7 @@ function request(e) {
         sysinfo.networkStats(iface.iface, (ifState) => {
             ifState.forEach((ifData) => {
                 if (ifData.rx_sec != 'Infinity' && ifData.rx_sec != '-1' && ifData.rx_sec.toFixed(2) != 'NaN' && ifData.tx_sec != 'Infinity' && ifData.tx_sec != '-1' && ifData.tx_sec.toFixed(2) != 'NaN') {
+
                     data.push({ interface: ifData.iface, rx: (ifData.rx_sec).toFixed(2), tx: (ifData.tx_sec).toFixed(2) })
                     if (ifData.rx_sec > max.rx) { max.rx = (ifData.rx_sec).toFixed(2) }
                     if (ifData.tx_sec > max.tx) { max.tx = (ifData.tx_sec).toFixed(2) }
@@ -60,6 +62,7 @@ function getMyIpAddress() {
         let alias = 0;
         ifaces[ifname].forEach(function (iface) {
             if ('IPv4' !== iface.family || iface.internal !== false) { return; }
+            if (!Program.Computerdata.mac) { Program.Computerdata.mac = iface.mac; }
             if (alias >= 1) {
                 IPArray.push({ interface: ifname + "." + alias, ip: iface.address })
             } else {

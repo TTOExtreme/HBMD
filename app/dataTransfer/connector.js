@@ -13,7 +13,7 @@ function init(Program) {
     socket.on('connect', function () {
 
         socket.on("hs", (data) => {
-            if (data.status == 0) {
+            if (data.status == 0 && !connected) {
                 console.log("Connection Sucess");
                 connected = true;
             }
@@ -32,6 +32,7 @@ function init(Program) {
 
 function send(data) {
     if (connected) {
+        //console.log("Send");
         socket.emit("data", data);
     }
 }

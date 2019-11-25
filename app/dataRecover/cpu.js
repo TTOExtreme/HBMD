@@ -1,18 +1,19 @@
 const os = require('os-utils');
 
-
-let last_save = 0;
 let data = [];
 let Program;
 let min = { percent: 100 }
 let max = { percent: 0 }
 let med = { percent: 0 }
+let info = {}
 
 
 function init(_Program) {
     Program = _Program;
     setInterval(request, Program.config.intervalCollect);
     setInterval(send, Program.config.interval)
+    let cpuinfo = require('os').cpus().pop()
+    info = { model: cpuinfo.model, speed: cpuinfo.speed }
 }
 
 function send(e) {
@@ -23,7 +24,7 @@ function send(e) {
     })
     med.percent = (med.percent / index).toFixed(2).toString();
 
-    Program.connector.send({ route: "CPU", data: data, min: min, max: max, med: med, timestamp: new Date().getTime() })
+    Program.connector.send({ route: "CPU", data: data, info: info, min: min, max: max, med: med, timestamp: new Date().getTime() })
     data = [];
 
     min = { percent: 100 }
