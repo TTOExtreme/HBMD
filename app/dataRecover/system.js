@@ -30,7 +30,6 @@ function request(e) {
     }
     sysinfo.processes((process) => {
         info = JSON.stringify(process);
-        console.log(info);
     })
 }
 

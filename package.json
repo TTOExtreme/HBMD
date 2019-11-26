@@ -5,6 +5,7 @@
   "main": "./app/main",
   "dependencies": {
     "crypto-js": "^3.1.9-1",
+    "dree": "^2.1.11",
     "os-utils": "0.0.14",
     "pkg": "^4.4.0",
     "randomstring": "^1.1.5",

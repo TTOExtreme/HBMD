@@ -1,0 +1,6 @@
+{
+    "intervalSystem": 60000,
+    "intervalCollect": 2000,
+    "interval": 10000,
+    "url": "localhost:9898"
+}

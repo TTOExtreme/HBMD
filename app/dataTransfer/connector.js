@@ -8,7 +8,7 @@ let socket;
 function init(Program) {
     console.log("Connecting to Server on: " + Program.config.url)
 
-    socket = socketClient(Program.config.url);
+    socket = socketClient("http://" + Program.config.url + "/HBMD");
 
     socket.on('connect', function () {
 
