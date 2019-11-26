@@ -24,7 +24,7 @@ function init(Program) {
         });
         socket.on('disconnect', function () {
             connected = false;
-            setTimeout(() => { init(Program) }, 500);
+            //setTimeout(() => { init(Program) }, 500);
         })
         socket.emit("auth", { hostname: Program.Computerdata.hostname })
     });
