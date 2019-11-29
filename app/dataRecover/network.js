@@ -17,7 +17,8 @@ function init(_Program) {
     setInterval(send, Program.config.interval)
 
     Program.Computerdata.NIC = getMyIpAddress();
-    console.log(Program.Computerdata);
+    Program.Computerdata.hostname = os.hostname();
+    //console.log(Program.Computerdata);
     //Program.Computerdata = { hostname: os.hostname(), NIC: getMyIpAddress() }
 }
 
