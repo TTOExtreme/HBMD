@@ -27,7 +27,7 @@ function init(Program) {
             console.log("Connection Broken");
             //setTimeout(() => { init(Program) }, 500);
         })
-        socket.emit("auth", { hostname: Program.Computerdata.hostname })
+        socket.emit("auth", Program.Computerdata)
     });
 }
 

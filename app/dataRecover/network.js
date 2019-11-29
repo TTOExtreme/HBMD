@@ -16,7 +16,8 @@ function init(_Program) {
     setInterval(request, Program.config.intervalCollect);
     setInterval(send, Program.config.interval)
 
-    Program.Computerdata = { hostname: os.hostname(), NIC: getMyIpAddress() }
+    Program.Computerdata.NIC = getMyIpAddress();
+    //Program.Computerdata = { hostname: os.hostname(), NIC: getMyIpAddress() }
 }
 
 function send(e) {
