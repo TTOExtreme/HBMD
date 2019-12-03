@@ -8,7 +8,7 @@ let info = {};
 
 function init(_Program) {
     Program = _Program;
-    setInterval(request, Program.config.intervalSystem);
+    setInterval(request, Program.config.interval);
 }
 
 function send() {

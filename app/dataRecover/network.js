@@ -1,8 +1,6 @@
 const sysinfo = require("systeminformation");
 const os = require('os');
 
-let online = true;
-let last_save = 0;
 let data = [];
 let Program;
 let min = { rx: 1000000000, tx: 1000000000 }
@@ -45,9 +43,18 @@ function request(e) {
     Object.keys(ifaces).forEach((iface) => {
         sysinfo.networkStats(iface.iface, (ifState) => {
             ifState.forEach((ifData) => {
-                if (ifData.rx_sec != 'Infinity' && ifData.rx_sec != '-1' && ifData.rx_sec.toFixed(2) != 'NaN' && ifData.tx_sec != 'Infinity' && ifData.tx_sec != '-1' && ifData.tx_sec.toFixed(2) != 'NaN') {
+                if (ifData.rx_sec != 'Infinity' &&
+                    ifData.rx_sec != '-1' &&
+                    ifData.rx_sec.toFixed(2) != 'NaN' &&
+                    ifData.tx_sec != 'Infinity' &&
+                    ifData.tx_sec != '-1' &&
+                    ifData.tx_sec.toFixed(2) != 'NaN') {
 
-                    data.push({ interface: ifData.iface, rx: (ifData.rx_sec).toFixed(2), tx: (ifData.tx_sec).toFixed(2) })
+                    data.push({
+                        interface: ifData.iface,
+                        rx: (ifData.rx_sec).toFixed(2),
+                        tx: (ifData.tx_sec).toFixed(2)
+                    })
                     if (ifData.rx_sec > max.rx) { max.rx = (ifData.rx_sec).toFixed(2) }
                     if (ifData.tx_sec > max.tx) { max.tx = (ifData.tx_sec).toFixed(2) }
                     if (ifData.rx_sec < min.rx) { min.rx = (ifData.rx_sec).toFixed(2) }

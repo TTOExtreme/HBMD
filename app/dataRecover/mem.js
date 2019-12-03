@@ -5,7 +5,7 @@ let Program;
 let min = { used: 1000000000000, swapused: 1000000000000 }
 let max = { used: 0, swapused: 0 }
 let med = { used: 0, swapused: 0 }
-let info = {}
+let info = { total: 0, swaptotal: 0 }
 
 
 function init(_Program) {
@@ -34,7 +34,9 @@ function send(e) {
 
 function request(e) {
     sysinfo.mem(memdata => {
-        data.push({ total: memdata.total, used: memdata.used, swaptotal: memdata.swaptotal, swapused: memdata.swapused });
+        info.total = memdata.total;
+        info.swaptotal = memdata.swaptotal;
+        data.push({ used: memdata.used, swapused: memdata.swapused });
         if (memdata.swapused > max.swapused) { max.swapused = memdata.swapused }
         if (memdata.swapused < min.swapused) { min.swapused = memdata.swapused }
         if (memdata.used > max.used) { max.used = memdata.used }
