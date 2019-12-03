@@ -5,8 +5,8 @@ let fs = require('fs');
 let Program = {
     configFilePath: __dirname + "/config.json",
     programPath: __dirname + "/",
+    logFilePath: __dirname + "/log.txt",
     config: {
-        logFilePath: __dirname + "/log.txt",
         /**
          * intervalo para dados do sistema e processos
          */
@@ -45,9 +45,9 @@ if (process.argv.length > 0) {
     }
 }
 
-let log = require("./log");
-log.init(Program)
-Program.log = log.log;
+//let log = require("./log");
+//log.init(Program)
+Program.log = console.log;
 
 if (fs.existsSync(path.join(Program.configFilePath))) {
     try {
@@ -61,7 +61,7 @@ if (fs.existsSync(path.join(Program.configFilePath))) {
 }
 
 if (isWin) {
-    require("./trayhandler")(Program);
+    //require("./trayhandler")(Program);
 }
 require("./dataTransfer").init(Program);
 require("./dataRecover").init(Program);

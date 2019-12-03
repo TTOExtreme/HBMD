@@ -35,12 +35,10 @@ function exe(Program) {
 
     systray.onClick(action => {
         if (action.seq_id === 0) {
-
             var exec = require('child_process').exec;
             exec(getCommandLine() + ' ' + filePath);
-
         } else if (action.seq_id === 1) {
-            systray.kill()
+            process.kill()
         }
     })
 }

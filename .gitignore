@@ -4,3 +4,4 @@ node_modules/
 builds/
 
 app/config.json
+log.txt
