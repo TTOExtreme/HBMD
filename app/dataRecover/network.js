@@ -16,7 +16,7 @@ function init(_Program) {
 
     Program.Computerdata.NIC = getMyIpAddress();
     Program.Computerdata.hostname = os.hostname();
-    //console.log(Program.Computerdata);
+    //Program.log(Program.Computerdata);
     //Program.Computerdata = { hostname: os.hostname(), NIC: getMyIpAddress() }
 }
 

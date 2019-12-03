@@ -18,7 +18,7 @@ function init(_Program) {
     Program = _Program;
     //setInterval(request, Program.config.intervalSystem);
 
-    //console.log("Read Disk: " + Program.config.tree)
+    Program.log("Read Disk: " + Program.config.tree)
     if (Program.config.tree) {
         setTimeout(request, 5 * 1000);
     }

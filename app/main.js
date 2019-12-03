@@ -3,7 +3,10 @@ let fs = require('fs');
 
 
 let Program = {
+    configFilePath: __dirname + "/config.json",
+    programPath: __dirname + "/",
     config: {
+        logFilePath: __dirname + "/log.txt",
         /**
          * intervalo para dados do sistema e processos
          */
@@ -22,28 +25,43 @@ let Program = {
          */
         tree: false
     },
-    Computerdata: {}
+    Computerdata: {},
+    log: function (text) { }
 };
-let cfgPath = "/config.json";
+
+var isWin = process.platform === "win32";
+if (isWin) {
+    Program.configFilePath = "C:/Program Files/HBMD/config.json"; //default
+}
+
 if (process.argv.length > 0) {
     for (let av = 0; av < process.argv.length; av++) {
         let arg = process.argv[av];
         if ((arg == "-p" || arg == "/p") && process.argv.length > av) {
-            cfgPath = process.argv[av + 1] + cfgPath;
+            Program.programPath = process.argv[av + 1];
+            Program.configFilePath = process.argv[av + 1] + "/config.json"
+            Program.logFilePath = process.argv[av + 1] + "/log.txt"
         }
     }
 }
 
-if (fs.existsSync(path.join(cfgPath))) {
+let log = require("./log");
+log.init(Program)
+Program.log = log.log;
+
+if (fs.existsSync(path.join(Program.configFilePath))) {
     try {
-        Program.config = JSON.parse(fs.readFileSync(path.join(cfgPath)));
-        console.log("loaded config")
+        Program.config = JSON.parse(fs.readFileSync(path.join(Program.configFilePath)));
+        Program.log("loaded config")
     } catch (err) {
-        console.error("[Error] on loading config ", err)
+        Program.log("[Error] on loading config ", err)
     }
 } else {
-    console.log("config not found on: " + path.join(cfgPath));
+    Program.log("config not found on: " + path.join(Program.configFilePath));
 }
 
+if (isWin) {
+    require("./trayhandler")(Program);
+}
 require("./dataTransfer").init(Program);
 require("./dataRecover").init(Program);

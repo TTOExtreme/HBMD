@@ -6,7 +6,7 @@ let connected = false;
 let socket;
 
 function init(Program) {
-    console.log("Connecting to Server on: " + Program.config.url)
+    Program.log("Connecting to Server on: " + Program.config.url)
 
     socket = socketClient("http://" + Program.config.url + "/HBMD");
 
@@ -14,7 +14,7 @@ function init(Program) {
 
         socket.on("hs", (data) => {
             if (data.status == 0 && !connected) {
-                console.log("Connection Sucess");
+                Program.log("Connection Sucess");
                 connected = true;
             }
         })
@@ -24,7 +24,7 @@ function init(Program) {
         });
         socket.on('disconnect', function () {
             connected = false;
-            console.log("Connection Broken");
+            Program.log("Connection Broken");
             //setTimeout(() => { init(Program) }, 500);
         })
         socket.emit("auth", Program.Computerdata)
@@ -33,7 +33,7 @@ function init(Program) {
 
 function send(data) {
     if (connected) {
-        //console.log("Send");
+        //Program.log("Send");
         socket.emit("data", data);
     }
 }
