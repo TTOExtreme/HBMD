@@ -11,7 +11,7 @@
     "randomstring": "^1.1.5",
     "socket.io": "^2.3.0",
     "socket.io-client": "^2.3.0",
-    "systeminformation": "^4.14.8",
+    "systeminformation": "^4.27.11",
     "systray": "^1.0.5"
   },
   "devDependencies": {},
